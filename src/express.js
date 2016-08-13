@@ -10,13 +10,28 @@ import webpackConfig from '../webpack-config/client';
 import compression from 'compression';
 import layout from './layout';
 import glob from 'glob';
+import session from 'express-session';
+import ConnectRedis from 'connect-redis';
+import passport from './passport';
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+import { match, RouterContext } from 'react-router'
+import routes from './router';
+import Store from './stores/application';
 
+const RedisStore = ConnectRedis(session);
 const isProduction = process.env.NODE_ENV === 'production';
 const app = express();
 
 app.set('port', normalizePort(process.env.PORT || '3000'));
 
 app.use(logger('dev'));
+app.use(session({
+  store: new RedisStore({}),
+  secret: process.env.SESSION_SECRET || 'baaa',
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(cookieParser());
@@ -30,11 +45,10 @@ if (!isProduction) {
 
 app.use(express.static(Path.join(__dirname, '../public')));
 
-import React from 'react';
-import { renderToString } from 'react-dom/server';
-import { match, RouterContext } from 'react-router'
-import routes from './router';
-import Store from './stores/application';
+app.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.email'] }));
+app.get('/auth/google/callback',
+    passport.authenticate('google', { failureRedirect: '/' }),
+    (req, res) => res.redirect('/'));
 
 app.get('*', (req, res) => {
   match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
@@ -46,6 +60,7 @@ app.get('*', (req, res) => {
       const data = {
         title: 'Express',
         messages: ['yeah!', 'baam!', 'baaa!'],
+        user: req.user,
       };
       // Injection point of initial data in server-side.
       // XXX: Other way?

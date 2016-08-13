@@ -20,13 +20,13 @@ class Application extends React.Component {
   }
 
   render() {
-    const {title, messages} = this.state;
+    const {title, messages, user} = this.state;
 
     // debugger;
     return (
       <div className={s.root + ' ' + s.layoutMasterDetail}>
         <div className={s.layoutMasterDetailMaster}>
-          <UserFace />
+          <UserFace {...user} />
           <Channels />
         </div>
         <div className={s.layoutMasterDetailDetail}>
