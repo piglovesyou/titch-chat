@@ -4,7 +4,9 @@ import {ReduceStore} from 'flux/utils';
 class Store extends ReduceStore {
   getInitialState() {
     return {
-      messages: []
+      userinfo: null,
+      channels: [],
+      messages: [],
     };
   }
   reduce(state, action) {

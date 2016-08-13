@@ -40,7 +40,7 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "flux": "^2.1.1",
     "glob": "^7.0.5",
-    "node-sass": "^3.8.0",
+    "node-refills": "^1.0.1",
     "react-router": "^2.6.0",
     "sass-loader": "^4.0.0",
     "wdio-mocha-framework": "^0.4.0",

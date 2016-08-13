@@ -5,6 +5,10 @@ import Actions from '../../actions';
 import Toolbar from '../toolbar';
 import Navigation from '../navigation';
 import s from './index.sass';
+import UserFace from '../user-face';
+import Channels from '../channels';
+import Chats from '../chats';
+import ChatInput from '../chat-input';
 
 class Application extends React.Component {
   static getStores() {
@@ -17,16 +21,17 @@ class Application extends React.Component {
 
   render() {
     const {title, messages} = this.state;
-    
+
     // debugger;
     return (
-      <div className={s.root}>
-        <Toolbar {...this.state} />
-        <div className={s.layoutMasterDetail}>
-          <Navigation className={s.layoutMasterDetailMaster} />
-          <div className={s.layoutMasterDetailDetail}>
-            {React.Children.map(this.props.children, (c) => React.cloneElement(c, this.state))}
-          </div>
+      <div className={s.root + ' ' + s.layoutMasterDetail}>
+        <div className={s.layoutMasterDetailMaster}>
+          <UserFace />
+          <Channels />
+        </div>
+        <div className={s.layoutMasterDetailDetail}>
+          <Chats />
+          <ChatInput />
         </div>
       </div>
     );

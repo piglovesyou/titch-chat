@@ -6,6 +6,7 @@ const FS = require('fs');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CompressionPlugin = require("compression-webpack-plugin");
 const cssLoaderConfig = require('./css-loader')[isProduction ? 'production' : 'develop'];
+const sassConfig = require('./sass');
 
 module.exports = {
   entry: './src/client',
@@ -32,10 +33,6 @@ module.exports = {
       },
       {
         test: /\.sass$/,
-        // loaders: [
-        //   cssLoaderConfig,
-        //   'sass',
-        // ],
         loader: ExtractTextPlugin.extract([
           cssLoaderConfig,
           'sass-loader',
@@ -43,9 +40,7 @@ module.exports = {
       },
     ]
   },
-  sassLoader: {
-    indentedSyntax: true,
-  },
+  sassLoader: sassConfig,
   plugins: [
     new ExtractTextPlugin('stylesheets/main.css'),
     new CompressionPlugin({

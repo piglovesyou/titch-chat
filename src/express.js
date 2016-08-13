@@ -53,6 +53,17 @@ app.get('*', (req, res) => {
       const html = renderToString(<RouterContext {...renderProps} />);
       Store._state = null;
       res.status(200).send(layout([data, html]));
+      // if (!isProduction) {
+      //   console.log('=========== enterig');
+      //   const componentModules = new RegExp('^' + Path.join(__dirname, 'components'));
+      //   for (let m of Object.keys(require.cache)) {
+      //     if (!/node_modules/.test(m)) console.log(m);
+      //     if (!/node_modules/.test(require.cache[m].filename)) {
+      //       console.log('[delete] ' + m);
+      //       delete require.cache[m];
+      //     }
+      //   }
+      // }
     } else {
       res.status(404).send('Not found')
     }

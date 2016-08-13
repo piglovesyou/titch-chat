@@ -1,16 +1,17 @@
-.root
-  flex: 1
+@import variables
+@import core/grid
+
+=flex-column
   display: flex
   flex-direction: column
+  
+
+.root
+  +row()
 .layout-master-detail
-  flex: 1
-  display: flex
   &__master
-    width: 120px
+    +column(4)
+    +flex-column
   &__detail
-    flex: 1
-.layout-master-detail__master
-  width: 144px
-.layout-master-detail__detail
-  flex: 1
-  padding-left: 16px
+    +column(8)
+    +flex-column

@@ -1,10 +1,11 @@
+@import theme
+
 :global(html),
 :global(body)
   height: 100%
 :global(body)
-  margin: 0
   display: flex
 :global(#application-container)
+  @include wrapper($fluid: true)
   display: flex
   flex: 1
-  margin: 0
