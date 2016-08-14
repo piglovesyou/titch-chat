@@ -4,7 +4,7 @@ import s from './index.sass';
 export default function UserFace(user) {
   return (
     <div className={s.root}>
-      {user ? userFace(user) : loginLink()}
+      {user.hasOwnProperty('name') ? userFace(user) : loginLink()}
     </div>
   );
 };
@@ -14,5 +14,5 @@ function loginLink() {
 }
 
 function userFace(user) {
-  return [<img className={s.photo} src={user.photo} />, <span className={s.name}>{user.name}</span>];
+  return [<img key="photo" className={s.photo} src={user.photo} />, <span key="name" className={s.name}>{user.name}</span>];
 }

@@ -1,3 +1,5 @@
+@import theme
+
 .root
   margin: 0
   padding: 0
@@ -6,3 +8,38 @@
   flex: 1
 .item
   padding: 8px 16px
+.button-wrapper
+  padding: 8px
+  position: relative
+.create-button
+  width: 100%
+  text-align: center
+.modal
+  $w: 240px
+  $h: 160px
+  display: flex
+  position: absolute
+  width: $w
+  margin-left: -($w / 2)
+  height: $h
+  margin-top: -($h / 2)
+  top: 50%
+  left: 50%
+  border: 1px solid lightgrey
+  overflow: auto
+  border-radius: 4px
+  outline: none
+  background: white
+  form
+    flex: 1
+    flex-direction: column
+    display: flex
+  &-content
+    padding: 16px
+    flex: 1
+  &-actions
+    border-top: 1px #e3e3e3 solid
+    padding: 8px
+    text-align: right
+    button
+      margin-left: 8px

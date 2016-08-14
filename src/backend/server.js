@@ -1,3 +1,5 @@
+import SyncedDBBackend from 'synceddb-server';
+import MemoryPersistence from 'synceddb-persistence-memory';
 import express from './express';
 import http from 'http';
 
@@ -9,6 +11,12 @@ const server = http.createServer(express);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+(async () => {
+  debugger;
+  const store = await MemoryPersistence.create();
+  debugger;
+  new SyncedDBBackend({server, store});
+})();
 
 
 function onError(error) {
