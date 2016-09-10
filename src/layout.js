@@ -4,6 +4,7 @@ export default ([data, contentHTML]) => {
   <head>
     <title>${data.title}</title>
     <link rel='stylesheet' href='/stylesheets/main.css' />
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
   </head>
   <body>
     <div id="application-container">${contentHTML}</div>
