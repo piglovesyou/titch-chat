@@ -4,10 +4,10 @@ import {ReduceStore} from 'flux/utils';
 class Store extends ReduceStore {
   getInitialState() {
     return {
-      user: {},
       currentChannel: null,
+      user: {},
       channels: [],
-      messages: [],
+      posts: []
     };
   }
   reduce(state, action) {
@@ -20,7 +20,18 @@ class Store extends ReduceStore {
         console.log(newState.messages)
         break;
 
-      case 'post':
+      case 'create-post':
+        state.posts.unshift(action.post);
+        newState = Object.assign({}, state, {
+          posts: state.posts.slice(0, 20)
+        });
+        break;
+
+      case 'select-channel':
+        newState = Object.assign({}, state, {
+          currentChannel: action.channel,
+          posts: action.posts,
+        });
         break;
 
       case 'channel-created':
@@ -32,6 +43,8 @@ class Store extends ReduceStore {
       case 'init-app':
         newState = Object.assign({}, state, {
           channels: action.channels,
+          currentChannel: action.channels[0],
+          posts: action.posts || [],
         });
         break;
     }

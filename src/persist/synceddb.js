@@ -18,17 +18,34 @@ export const db = syncedDB.open({
   remote: location.host
 });
 
-export function putPost(text) {
+export async function putPost(text, channel, user) {
+  const [key] = await db.posts.put({
+    text,
+    channel: channel.key,
+    createdBy: user,
+    createdAt: Date.now() // TODO 
+  });
+  return await db.posts.get(key);
 }
 
 export function getChannel(key) {
   return db.channels.get(key);
 }
 
-export function putChannel(name, user) {
-  return db.channels.put({
+export function getPosts(key) {
+  return db.posts['by channel, createdAt'].find({
+    gt: [key, Number.MIN_VALUE],
+    lt: [key, Number.MAX_VALUE],
+    limit: 20,
+    direction: 'prev'
+  });
+}
+
+export async function putChannel(name, user) {
+  const [key] = await db.channels.put({
     name: name,
-    createdBy: user.name,
+    createdBy: user,
     createdAt: Date.now() // TODO 
   });
+  return await db.channels.get(key);
 }

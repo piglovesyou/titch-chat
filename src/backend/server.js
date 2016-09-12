@@ -1,23 +1,16 @@
-import SyncedDBBackend from 'synceddb-server';
-import MemoryPersistence from 'synceddb-persistence-memory';
 import express from './express';
 import http from 'http';
+import initSyncedDB from './ws';
 
 const debug = require('debug')('site:server');
 const port = express.get('port');
-
 
 const server = http.createServer(express);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
-(async () => {
-  debugger;
-  const store = await MemoryPersistence.create();
-  debugger;
-  new SyncedDBBackend({server, store});
-})();
 
+initSyncedDB(server);
 
 function onError(error) {
   if (error.syscall !== 'listen') {

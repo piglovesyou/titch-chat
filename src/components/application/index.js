@@ -6,10 +6,10 @@ import Navigation from '../navigation';
 import s from './index.sass';
 import UserFace from '../user-face';
 import Channels from '../channels';
-import Chats from '../chats';
+import Posts from '../posts';
 import ChatInput from '../chat-input';
+import ChannelBar from '../channel-bar';
 import isBrowser from 'is-browser';
-import Actions from '../../actions';
 
 class Application extends React.Component {
   static getStores() {
@@ -21,9 +21,7 @@ class Application extends React.Component {
   }
 
   render() {
-    const {title, messages, user, channels, posts} = this.state;
-
-    // debugger;
+    const {title, messages, user, channels, posts, currentChannel} = this.state;
     return (
       <div className={s.root + ' ' + s.layoutMasterDetail}>
         <div className={s.layoutMasterDetailMaster}>
@@ -31,11 +29,16 @@ class Application extends React.Component {
           <Channels {...this.state} />
         </div>
         <div className={s.layoutMasterDetailDetail}>
-          <Chats posts={posts} />
-          <ChatInput />
+          {currentChannel ? <ChannelBar currentChannel={currentChannel} /> : null}
+          <Posts posts={posts} />
+          <ChatInput user={user} currentChannel={currentChannel} />
         </div>
       </div>
     );
+  }
+  
+  componentDidMount() {
+    
   }
 };
 

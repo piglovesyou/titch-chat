@@ -35,7 +35,6 @@ function reactRouter(req, res, next) {
     } else if (renderProps) {
       const data = {
         title: 'Express',
-        messages: ['yeah!', 'baam!', 'baaa!'],
         user: req.user,
         channels: [],
         posts: []

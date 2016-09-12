@@ -1,11 +1,20 @@
 import React from 'react';
 import s from './index.sass';
-import {createChannel} from '../../actions';
+import {selectChannel, createChannel} from '../../actions';
 import Modal from 'react-modal';
 
 export default function Channel(props) {
+  const classNames = [s.item];
+  if (props.current) classNames.push('current');
   return (
-    <div><a href="#" {...props}>{props.children}</a></div>
+    <div>
+      <a className={classNames.join(' ')}
+          href="select channel"
+          onClick={props.onClick}
+      >
+        {props.children}
+      </a>
+    </div>
   );
 };
 
@@ -16,7 +25,8 @@ export default class Channels extends React.Component {
   }
 
   render() {
-    const {channels} = this.props;
+    const {channels, currentChannel} = this.props;
+    const currentChannelKey = currentChannel && currentChannel.key;
     const {open} = this.state;
     return (
       <div className={s.root}>
@@ -25,7 +35,10 @@ export default class Channels extends React.Component {
         </div>
         <div>
           {channels.map(c =>
-            <Channel className={s.item} key={c.key}>{c.name}</Channel>
+            <Channel onClick={handleChannelSelect.bind(null, c)}
+              key={c.key}
+              current={c.key === currentChannelKey}
+            >{c.name}</Channel>
           )}
         </div>
         <Modal
@@ -71,3 +84,8 @@ export default class Channels extends React.Component {
     this.setState({open: true});
   }
 };
+
+function handleChannelSelect(channel, e) {
+  selectChannel(channel);
+  e.preventDefault();
+}

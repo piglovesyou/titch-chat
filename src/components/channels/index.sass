@@ -7,7 +7,12 @@
   background-color: ghostwhite
   flex: 1
 .item
+  display: block
   padding: 8px 16px
+  &:hover
+    background-color: whitesmoke
+  &:global(.current)
+    background-color: darken(whitesmoke, 5%)
 .button-wrapper
   padding: 8px
   position: relative

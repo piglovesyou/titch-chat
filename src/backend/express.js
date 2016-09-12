@@ -3,7 +3,7 @@ import express from 'express';
 import session from 'express-session';
 import compression from 'compression';
 import ConnectRedis from 'connect-redis';
-import favicon from 'serve-favicon';
+// import favicon from 'serve-favicon';
 import logger from 'morgan';
 import webpackDevMiddleware from "webpack-dev-middleware";
 import webpack from "webpack";
@@ -21,7 +21,7 @@ app.set('port', normalizePort(process.env.PORT || '3000'));
 app.use(logger('dev'));
 app.use(session({
   store: new RedisStore({}),
-  secret: process.env.SESSION_SECRET || 'baaa',
+  secret: process.env.SESSION_SECRET || 'baa',
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -51,7 +51,7 @@ app.get('*', isProduction
     ? router
     : [unloadModules, loadModules, router]);
 
-app.use(favicon());
+// app.use(favicon());
 
 // Handle 404
 app.use((req, res, next) => {
