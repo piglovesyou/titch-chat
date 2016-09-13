@@ -1,6 +1,6 @@
 import express from './express';
 import http from 'http';
-import initSyncedDB from './ws';
+import initSyncedDB from './sdb';
 
 const debug = require('debug')('site:server');
 const port = express.get('port');

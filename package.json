@@ -34,7 +34,7 @@
     "serve-favicon": "~2.3.0",
     "synceddb-client": "../synceddb/client",
     "synceddb-persistence-memory": "0.0.3",
-    "synceddb-server": "0.0.4"
+    "synceddb-server": "0.0.5"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",

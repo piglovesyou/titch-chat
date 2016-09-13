@@ -2,7 +2,6 @@ import Path from 'path';
 import express from 'express';
 import session from 'express-session';
 import compression from 'compression';
-import ConnectRedis from 'connect-redis';
 // import favicon from 'serve-favicon';
 import logger from 'morgan';
 import webpackDevMiddleware from "webpack-dev-middleware";
@@ -11,8 +10,8 @@ import glob from 'glob';
 import webpackConfig from '../../webpack-config/client';
 import router, {loadModules, unloadModules} from './router';
 import passport from './passport';
+import sessionStore from './session-store';
 
-const RedisStore = ConnectRedis(session);
 const isProduction = process.env.NODE_ENV === 'production';
 const app = express();
 
@@ -20,7 +19,7 @@ app.set('port', normalizePort(process.env.PORT || '3000'));
 
 app.use(logger('dev'));
 app.use(session({
-  store: new RedisStore({}),
+  store: sessionStore,
   secret: process.env.SESSION_SECRET || 'baa',
 }));
 app.use(passport.initialize());
