@@ -15,7 +15,7 @@ export const db = syncedDB.open({
   name: 'titch-chat',
   version: 1,
   stores,
-  url: (location.protocol === 'https://' ? 'wss://' : 'ws://') + location.host,
+  url: (location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host,
 });
 
 export async function putPost(text, channel, user) {
@@ -33,7 +33,7 @@ export function getChannel(key) {
 }
 
 export function getPosts(key) {
-  return db.posts['by channel, createdAt'].find({
+  return db.posts['by channel, createdAt'].inRange({
     gt: [key, Number.MIN_VALUE],
     lt: [key, Number.MAX_VALUE],
     limit: 20,
