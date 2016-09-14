@@ -3,7 +3,7 @@ import s from './index.sass';
 import {selectChannel, createChannel} from '../../actions';
 import Modal from 'react-modal';
 
-export default function Channel(props) {
+function Channel(props) {
   const classNames = [s.item];
   if (props.current) classNames.push('current');
   return (

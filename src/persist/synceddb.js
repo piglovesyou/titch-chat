@@ -15,7 +15,7 @@ export const db = syncedDB.open({
   name: 'titch-chat',
   version: 1,
   stores,
-  remote: location.host
+  url: (location.protocol === 'https://' ? 'wss://' : 'ws://') + location.host,
 });
 
 export async function putPost(text, channel, user) {

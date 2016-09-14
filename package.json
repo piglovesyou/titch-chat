@@ -30,9 +30,8 @@
     "react": "^15.2.0",
     "react-dom": "^15.2.0",
     "react-modal": "^1.4.0",
-    "react-modal2": "^3.1.0",
     "serve-favicon": "~2.3.0",
-    "synceddb-client": "../synceddb/client",
+    "synceddb-client": "0.0.8",
     "synceddb-persistence-memory": "0.0.3",
     "synceddb-server": "0.0.5"
   },
@@ -53,6 +52,7 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "flux": "^2.1.1",
     "glob": "^7.0.5",
+    "node-sass": "^3.10.0",
     "react-router": "^2.6.0",
     "sass-loader": "^4.0.0",
     "wdio-mocha-framework": "^0.4.0",

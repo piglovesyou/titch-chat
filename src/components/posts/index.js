@@ -2,7 +2,7 @@ import React from 'react';
 import s from './index.sass';
 import moment from 'moment';
 
-export default function Post(props) {
+function Post(props) {
   if (!props.createdBy) {
     debugger;
   }
