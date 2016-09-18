@@ -4,7 +4,7 @@ export default ([data, contentHTML]) => {
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>${data.title}</title>
+    <title>Titch Chat</title>
     <link rel='stylesheet' href='/stylesheets/main.css' />
     <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
   </head>

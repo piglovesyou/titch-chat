@@ -34,7 +34,6 @@ function reactRouter(req, res, next) {
       res.redirect(302, redirectLocation.pathname + redirectLocation.search)
     } else if (renderProps) {
       const data = {
-        title: 'Express',
         user: req.user,
         channels: [],
         posts: []

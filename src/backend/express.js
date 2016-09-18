@@ -2,7 +2,6 @@ import Path from 'path';
 import express from 'express';
 import session from 'express-session';
 import compression from 'compression';
-// import favicon from 'serve-favicon';
 import logger from 'morgan';
 import webpackDevMiddleware from "webpack-dev-middleware";
 import webpack from "webpack";
@@ -24,12 +23,6 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-
-// import bodyParser from 'body-parser';
-// import cookieParser from 'cookie-parser';
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(cookieParser());
 
 if (isProduction) {
   app.use(compression());

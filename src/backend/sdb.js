@@ -2,6 +2,7 @@ import {ninvoke} from 'q';
 import createCookieParser from 'cookie-parser';
 import SyncedDBBackend from 'synceddb-server';
 import MemoryPersistence from 'synceddb-persistence-memory';
+import PostgresPersistence from 'synceddb-persistence-postgres';
 import sessionStore from './session-store';
 
 const parseCookie = (() => {
@@ -10,7 +11,11 @@ const parseCookie = (() => {
 })();
 
 export default async function initSyncedDB(server) {
-  const store = await MemoryPersistence.create();
+  // const store = await MemoryPersistence.create();
+  debugger;
+  const store = await PostgresPersistence.create({
+    conString: process.env.DATABASE_URL || 'postgres://pig@localhost/pig',
+  });
   const sdb = new SyncedDBBackend({server, store});
 
   for (let type of ['create', 'update', 'delete', 'reset']) {

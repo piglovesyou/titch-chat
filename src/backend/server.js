@@ -10,7 +10,7 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-initSyncedDB(server);
+initSyncedDB(server).catch(console.error);
 
 function onError(error) {
   if (error.syscall !== 'listen') {

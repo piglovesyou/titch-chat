@@ -33,6 +33,7 @@
     "serve-favicon": "~2.3.0",
     "synceddb-client": "0.0.8",
     "synceddb-persistence-memory": "0.0.3",
+    "synceddb-persistence-postgres": "0.0.2",
     "synceddb-server": "0.0.5"
   },
   "devDependencies": {
