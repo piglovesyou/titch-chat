@@ -13,14 +13,8 @@ class Store extends ReduceStore {
   reduce(state, action) {
     let newState;
     switch (action.type) {
-      case 'baam':
-        newState = Object.assign({}, state, {
-          messages: state.messages.concat(randomMessage())
-        });
-        console.log(newState.messages)
-        break;
-
       case 'create-post':
+        if (state.currentChannel.key !== action.post.channel) return state;
         state.posts.unshift(action.post);
         newState = Object.assign({}, state, {
           posts: state.posts.slice(0, 20)
@@ -36,7 +30,8 @@ class Store extends ReduceStore {
 
       case 'channel-created':
         newState = Object.assign({}, state, {
-          channels: state.channels.concat(action.channel).sort(sortByName)
+          currentChannel: action.channel,
+          channels: state.channels.concat(action.channel).sort(sortByName),
         });
         break;
 

@@ -11,11 +11,13 @@ const stores = {
   ]
 };
 
+const version = 7;
 export const db = syncedDB.open({
   name: 'titch-chat',
-  version: 1,
+  version,
   stores,
   url: (location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host,
+  migrations: { [version]: eraseAll }
 });
 
 export async function putPost(text, channel, user) {
@@ -48,4 +50,11 @@ export async function putChannel(name, user) {
     createdAt: Date.now() // TODO 
   });
   return await db.channels.get(key);
+}
+
+function eraseAll(idb, e) {
+  const tx = e.target.transaction;
+  for (let name of ['channels', 'posts']) {
+    tx.objectStore(name).clear();
+  }
 }
