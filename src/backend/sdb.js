@@ -14,7 +14,7 @@ const parseCookie = (() => {
 export default async function initSyncedDB(server) {
   // const store = await MemoryPersistence.create();
   const store = await PostgresPersistence.create({
-    conString: process.env.DATABASE_URL || 'postgres://pig@localhost/pig',
+    conString: process.env.DATABASE_URL || 'postgres://pig@localhost/titch-chat',
   });
   const sdb = new SyncedDBBackend({server, store});
 
