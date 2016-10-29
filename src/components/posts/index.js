@@ -3,9 +3,6 @@ import s from './index.sass';
 import moment from 'moment';
 
 function Post(props) {
-  if (!props.createdBy) {
-    debugger;
-  }
   var date = moment(props.createdAt).fromNow();
   return (
     <div className={s.post}>

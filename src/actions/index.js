@@ -4,21 +4,24 @@ import isBrowser from 'is-browser';
 // Server doesn't want it
 let synceddb = {};
 if (isBrowser) synceddb = require('../persist/synceddb');
-let {db, putPost, putChannel, getChannel, getPosts} = synceddb;
 if (isBrowser) initialAction();
 
 export async function post(text, currentChannel, user) {
-  await putPost(text, currentChannel, user);
+  await synceddb.putPost(text, currentChannel, user);
 }
 
 export async function createChannel(name, user) {
   // TODO check duplication
-  await putChannel(name, user);
+  await synceddb.putChannel(name, user);
+}
+
+export async function deleteChannel(channel) {
+  await synceddb.db.channels.delete(channel.key);
 }
 
 export async function selectChannel(channel_) {
-  const channel = await getChannel(channel_.key);
-  const posts = await getPosts(channel.key);
+  const channel = await synceddb.getChannel(channel_.key);
+  const posts = await synceddb.getPosts(channel.key);
   dispatch({
     type: 'select-channel',
     channel,
@@ -27,20 +30,35 @@ export async function selectChannel(channel_) {
 }
 
 async function initialAction() {
+  const {db} = synceddb;
   await db.sync({continuously: true});
   const channels = await db.channels['by name'].getAll();
   const [channel] = channels;
-  const posts = channel ? await getPosts(channel.key) : [];
+  const posts = channel ? await synceddb.getPosts(channel.key) : [];
   dispatch({
     type: 'init-app',
     channels,
     posts,
   });
-  db.posts.on('add', async (e) => { 
-    dispatch({ type: 'create-post', post: e.record });
-  });
-  db.channels.on('add', (e) => { 
-    dispatch({ type: 'channel-created', channel: e.record });
-  });
+
+  for (let type of ['create', 'add']) {
+    db.posts.on(type, async (e) => { 
+      dispatch({ type: `post-${type}`, record: e.record });
+    });
+    db.channels.on(type, (e) => { 
+      dispatch({ type: `channel-${type}`, record: e.record });
+    });
+  }
+
+  for (let type of ['delete']) {
+    db.posts.on(type, async (e) => { 
+      dispatch({ type: `post-${type}`, record: e.record });
+    });
+    db.channels.on(type, (e) => { 
+      dispatch({ type: `channel-${type}`, record: e.record });
+    });
+  }
+  // , 'update', 
+  
   window.db = db;
 }

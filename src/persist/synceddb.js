@@ -51,7 +51,6 @@ export async function putChannel(name, user) {
   });
   return await db.channels.get(key);
 }
-
 // function eraseAll(idb, e) {
 //   XXX: I shouldn't do this
 //   const tx = e.target.transaction;

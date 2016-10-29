@@ -6,13 +6,22 @@
   list-style-type: none
   background-color: ghostwhite
   flex: 1
-.item
-  display: block
-  padding: 8px 16px
+.channel
+  display: flex
+  &-a,
+  &-i
+    padding: 8px 16px
+  &-a
+    flex: 1
+  &-i
+    display: none
   &:hover
     background-color: whitesmoke
+    .channel-i
+      display: inline
   &:global(.current)
     background-color: darken(whitesmoke, 2%)
+  
 .button-wrapper
   padding: 8px
   position: relative

@@ -1,22 +1,33 @@
 import React from 'react';
 import s from './index.sass';
-import {selectChannel, createChannel} from '../../actions';
+import {selectChannel, createChannel, deleteChannel} from '../../actions';
 import Modal from 'react-modal';
+import IconDelete from 'react-icons/lib/md/delete';
 
 function Channel(props) {
-  const classNames = [s.item];
+  const classNames = [s.channel];
   if (props.current) classNames.push('current');
   return (
-    <div>
-      <a className={classNames.join(' ')}
+    <div className={classNames.join(' ')}>
+      <a className={s.channelA}
           href="select channel"
-          onClick={props.onClick}
+          onClick={props.handleSelect}
       >
         {props.children}
       </a>
+      {props.ownedByCurrUser ?
+        <a className={s.channelI}
+            href="delete"
+            onClick={props.handleDelete}
+        ><IconDelete /></a> : null}
     </div>
   );
 };
+
+function handleChannelDelete(channel, e) {
+  e.preventDefault();
+  deleteChannel(channel);
+}
 
 export default class Channels extends React.Component {
   constructor(props) {
@@ -25,7 +36,8 @@ export default class Channels extends React.Component {
   }
 
   render() {
-    const {channels, currentChannel} = this.props;
+    const {channels, currentChannel, user} = this.props;
+    const userName = user && user.name;
     const currentChannelKey = currentChannel && currentChannel.key;
     const {open} = this.state;
     return (
@@ -35,9 +47,12 @@ export default class Channels extends React.Component {
         </div>
         <div>
           {channels.map(c =>
-            <Channel onClick={handleChannelSelect.bind(null, c)}
+            <Channel handleSelect={handleChannelSelect.bind(null, c)}
+              handleDelete={handleChannelDelete.bind(null, c)}
               key={c.key}
               current={c.key === currentChannelKey}
+              ownedByCurrUser={c.createdBy.name === userName}
+              channelKey={c.key}
             >{c.name}</Channel>
           )}
         </div>

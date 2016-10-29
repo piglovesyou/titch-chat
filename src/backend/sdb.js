@@ -1,9 +1,10 @@
-import {ninvoke} from 'q';
+import {ninvoke, nfcall} from 'q';
 import createCookieParser from 'cookie-parser';
 import SyncedDBBackend from 'synceddb-server';
 import MemoryPersistence from 'synceddb-persistence-memory';
 import PostgresPersistence from 'synceddb-persistence-postgres';
 import sessionStore from './session-store';
+import passport from './passport';
 
 const parseCookie = (() => {
   const parser = createCookieParser(process.env.SESSION_SECRET || 'baa');
@@ -12,7 +13,6 @@ const parseCookie = (() => {
 
 export default async function initSyncedDB(server) {
   // const store = await MemoryPersistence.create();
-  debugger;
   const store = await PostgresPersistence.create({
     conString: process.env.DATABASE_URL || 'postgres://pig@localhost/pig',
   });
@@ -20,16 +20,21 @@ export default async function initSyncedDB(server) {
 
   for (let type of ['create', 'update', 'delete', 'reset']) {
     sdb.handlers[type] = async function (clientData, store, msg, respond, broadcast, req) {
-      const user = await getUser(req);
-      if (!user) return; // What should I do
+      if (!await verifyMsg(msg, req)) return;
       SyncedDBBackend.defaultHandlers[type].call(sdb, clientData, store, msg, respond, broadcast);
     };
   };
 }
 
+async function verifyMsg(msg, req) {
+  const user = await getUser(req);
+  return msg.record.createdBy.name === user.name;
+}
+
 async function getUser(req) {
   const session = await getSession(req);
-  return session.passport && session.passport.user;
+  if (!session || !session.passport || !session.passport.user) return;
+  return await ninvoke(passport, 'deserializeUser', session.passport.user);
 }
 
 async function getSession(req) {
